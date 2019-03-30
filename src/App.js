@@ -1,25 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Button from '@material-ui/core/Button';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {cards: []};
+    // this.state = {card: {top: 100, left: 200}};
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    console.log('dummy');
+    // this.setState(res);
+    const card = {
+      top: event.pageY,
+      left: event.pageX,
+    };
+    this.setState((state, props) => {
+      var cards = state.cards;
+      cards.push({key: cards.length.toString(), ...card});
+      return {cards: cards};
+    });
+  }
+
   render() {
+    console.log('hehe');
+    const buttons = this.state.cards.map((card) => 
+      <Button variant="contained" color="primary" key={card.key} style={{left: card.left, top: card.top, position: 'absolute'}}>
+        Button number {card.key}
+      </Button>
+    );
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className='App-sheet' onClick={this.handleClick}>
+        {buttons}
       </div>
     );
   }
